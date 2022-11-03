@@ -5,7 +5,45 @@ class LongestCommonSubstring {
         LongestCommonSubstring l = new LongestCommonSubstring();
 
         int x = l.longestCommonSubsequence("bsb", "kbk");
+        int y = l.longestCommonSubsequence("abcdeee", "acebdcd");
         System.out.println(x);
+        System.out.println(y);
+    }
+
+    public int longestCommonSubsequence(String text1, String text2) {
+
+        // +1 for last index, the empty string
+        // dp grid has result of all substring comparisons in one place
+        // built from ground up
+        int[][] dp = new int[text1.length() + 1][text2.length() + 1];
+
+
+        // filling in base cases with zeroes (along the edge of pascal's triangle)
+        for (int j = 0; j < text2.length() + 1; j++) {
+            dp[text1.length()][j] = 0;
+        }
+        for (int i = 0; i < text1.length() + 1; i++) {
+            dp[i][text2.length()] = 0;
+        }
+
+        // starting from bottom right and going up, then left
+
+        for (int i = text1.length() - 1; i >= 0; i--) {
+            for (int j = text2.length() - 1; j >= 0; j--) {
+                if (text1.charAt(i) == text2.charAt(j)) {
+                    // eat this char and +1 moving along in both
+                    dp[i][j] = 1 + dp[i + 1][j + 1];
+                }
+                else {
+                    // none to be gotten at this index
+                    // move only one char, straddling
+                    // tadashi tokeida method
+                    // both == l + r == r + l so no need to code for both
+                    dp[i][j] = 0 + Math.max(dp[i + 1][j], dp[i][j + 1]);
+                }
+            }
+        }
+        return dp[0][0];
     }
 
     // this is dynamic programming
@@ -32,7 +70,7 @@ class LongestCommonSubstring {
     // also don't forget x,y is y,x symmetrically too in the cache
 
     HashMap<String, Integer> cache = new HashMap<>();
-    public int longestCommonSubsequence(String text1, String text2) {
+    public int longestCommonSubsequence2(String text1, String text2) {
 
         if (cache.containsKey(text1 + "," + text2)) {
             return cache.get(text1 + "," + text2);
@@ -59,7 +97,8 @@ class LongestCommonSubstring {
 
             // make sure your indices are right when storing memo cache
             // sb,k was getting 1 because it was getting the 1 from sb,bk
-            // which doesn't make any sense
+            // which doesn't make any sense, since sb,k should be 0 in the cache
+            // the child shouldn't get the credit for something the parent has done, speaking in terms of computer science nodes strictly
 
             // that violates the one-way princple of dynamic programming
             // solutions are constructed from bottom up, one way/direction
@@ -97,44 +136,28 @@ class LongestCommonSubstring {
 
     }
 
-//        public static int longestCommonSubsequence1(String text1, String text2) {
-//        int m = text1.length();
-//        int n = text2.length();
-//
-//        if (m == 0 || n == 0) {
-//            return 0;
-//        }
-//        else if (m == 1 && n == 1) {
-//            if (text1.equals(text2)) {
-//                return 1;
-//            }
-//            else {
-//                return 0;
-//            }
-//        }
-//        else if (m == 1) {
-//            for (int i = 0; i < n; i++) {
-//                if (text1.charAt(0) == text2.charAt(i)) {
-//                    return 1;
-//                }
-//            }
-//            return 0;
-//        }
-//        else if (n == 1) {
-//            for (int i = 0; i < m; i++) {
-//                if (text2.charAt(0) == text1.charAt(i)) {
-//                    return 1;
-//                }
-//            }
-//            return 0;
-//        }
-//
-//        String left1 = text1.substring(0, m / 2);
-//        String left2 = text2.substring(0, n / 2);
-//        String right1 = text1.substring(m / 2, m);
-//        String right2 = text2.substring(n / 2, n);
-//
-//        return longestCommonSubsequence1(left1, left2) + longestCommonSubsequence1(right1, right2);
-//
-//    }
+    /*
+
+        int i, j = 0;
+        int count = 0;
+        while (i < text1.length() && j < text2.length()) {
+
+            if (text1.charAt(i) == text2.charAt(j)) {
+                i++;
+                j++;
+                count++;
+            }
+            else {
+                // move i only
+                // move j only
+                // move i and j
+                int moveIOnly = longestCommonSubsequence(text1.substring(i + 1), text2.substring(j));
+                int moveJOnly = longestCommonSubsequence(text1.substring(i), text2.substring(j + 1));
+                int moveIAndJ = longestCommonSubsequence(text1.substring(i + 1), text2.substring(j + 1));
+                return
+
+            }
+
+        }
+    */
 }
