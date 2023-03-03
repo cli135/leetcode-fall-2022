@@ -33,7 +33,7 @@ public class CowChecklist {
         int gIndex = 0;
         int h = hCows.length;
         int g = gCows.length;
-        double[][] dp = new double[h][g];
+        double[][] dp = new double[h + 1][g + 1];
 
         // go until you hit guernseys end of list
         //while (gIndex < gCows.length) {
@@ -49,23 +49,23 @@ public class CowChecklist {
         // you have to have holsteins as the first and last
 
         // where do i start the indices
-        for (int j = g - 1; j >= 0; j--) {
-            for (int i = h - 2; i >= 1; i--) {
+        for (int j = g; j >= 0; j--) {
+            for (int i = h - 1; i >= 1; i--) {
                 // dp state transition
                 // bounds checks
-                if (i + 1 >= h - 1 && j + 1 >= g) {
+                if (i + 1 >= h && j + 1 >= g + 1) {
                     // just walk the last distance to the holstein cow
-                    dp[i][j] = energy(hCows[i], hCows[i + 1]);
+                    dp[i][j] = energy(hCows[i - 1], hCows[i]);
                 }
-                else if (i + 1 >= h - 1) {
+                else if (i + 1 >= h) {
                     // only choice is guernsey (valid index)
                     // energy value propagates / is carried up
                     dp[i][j] = dp[i][j + 1] + energy(gCows[j], gCows[j + 1]);
                 }
-                else if (j + 1 >= g) {
+                else if (j + 1 >= g + 1) {
                     // only choice is holstein (valid index)
                     // energy value goes up
-                    dp[i][j] = dp[i + 1][j] + energy(hCows[i], hCows[i + 1]);
+                    dp[i][j] = dp[i + 1][j] + energy(hCows[i - 1], hCows[i]);
                 }
                 else {
                     // fully fledged dynamic programming case
