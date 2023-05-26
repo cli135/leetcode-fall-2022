@@ -25,7 +25,7 @@ public class RangeUpdateQueries {
         for (int i = 0; i < n; i++) {
             list.add(scnr.nextInt());
         }
-        Node root = build(list, 0, list.size());
+        Node root = build(list, 0, list.size() - 1);
         for (int i = 0; i < q; i++) {
             int queryType = scnr.nextInt();
             if (queryType == 1) {
@@ -37,18 +37,18 @@ public class RangeUpdateQueries {
             }
         }
     }
-    // [i, j)
+    // [i, j]
     public static Node build(List<Integer> list, int i, int j) {
         Node cur = new Node();
         cur.val = 0;
-        if (i + 1>= j) {
+        if (i >= j) {
             // leaf node time
             cur.val = list.get(i);
         }
         else {
             // intermediate node recursion time
             cur.left = build(list, i, (i + j) / 2);
-            cur.right = build(list, (i + j) / 2, j);
+            cur.right = build(list, ((i + j) / 2) + 1, j);
         }
         return cur;
     }
