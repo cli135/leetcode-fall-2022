@@ -31,6 +31,11 @@ class Node {
 // summating recursion and generalizable functor recursion
 // also binary search tree is just binary search on array
 // log n access mixed with O(1) insertion deletion with linked list links
+// also there is the key idea of a range of contiguous
+// values being described by a binary halved segment node
+// intermediate higher up in the tree.
+// i.e. updates applied once but applying across
+// different whole ranges in a binary tree that are consecutive.
 public class RangeUpdateQueries {
     public static void main(String[] args) {
         List<Integer> list = new LinkedList<>();
