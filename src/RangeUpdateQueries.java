@@ -1,4 +1,6 @@
 //https://cses.fi/problemset/task/1651
+//CSES whitespace formatting was causing my program to hang - lesson learned
+// just do leetcode
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
