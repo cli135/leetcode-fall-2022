@@ -25,6 +25,12 @@ class Node {
         return left == null && right == null;
     }
 }
+
+// segment tree is really just binary search tree
+// and arrays combined with fold right and fold left
+// summating recursion and generalizable functor recursion
+// also binary search tree is just binary search on array
+// log n access mixed with O(1) insertion deletion with linked list links
 public class RangeUpdateQueries {
     public static void main(String[] args) {
         List<Integer> list = new LinkedList<>();
