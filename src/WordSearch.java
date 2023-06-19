@@ -3,9 +3,13 @@ import java.util.Arrays;
 class WordSearch {
     public static void main(String[] args) {
         WordSearch ws = new WordSearch();
-        char[][] board = {{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
-        String word = "ABCESEEEFS";
-        System.out.println(ws.exist(board, word));
+//        char[][] board = {{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
+//        String word = "ABCESEEEFS";
+//        System.out.println(ws.exist(board, word));
+        char[][] board2 = {{'A','B','C','E'},{'S','F','E','S'},{'A','D','E','E'}};
+        String word2 = "ABCEFSADEESE";
+        System.out.println(ws.exist(board2, word2));
+
     }
     public boolean exist(char[][] board, String word) {
         int n = board.length;
@@ -39,13 +43,17 @@ class WordSearch {
             alreadyUsed[i][j] = true;
             boolean[][] savePoint = twoDimensionalArrayDeepCopyPrimitivesOnly(alreadyUsed);
             boolean left = existStartingAt(board, word.substring(1), alreadyUsed, i, j - 1);
-            alreadyUsed = savePoint;
+//            oh you have to do deep copies here you can't do shallow copies
+//            since you are doing shallow copies now
+//            since we need to reset hard at each direction recursion call
+            alreadyUsed = twoDimensionalArrayDeepCopyPrimitivesOnly(savePoint);
             boolean right = existStartingAt(board, word.substring(1), alreadyUsed, i, j + 1);
-            alreadyUsed = savePoint;
+            alreadyUsed = twoDimensionalArrayDeepCopyPrimitivesOnly(savePoint);
             boolean up = existStartingAt(board, word.substring(1), alreadyUsed, i - 1, j);
-            alreadyUsed = savePoint;
+            alreadyUsed = twoDimensionalArrayDeepCopyPrimitivesOnly(savePoint);
             boolean down = existStartingAt(board, word.substring(1), alreadyUsed, i + 1, j);
-            alreadyUsed = savePoint;
+            alreadyUsed = twoDimensionalArrayDeepCopyPrimitivesOnly(savePoint);
+//            alreadyUsed[i][j] = false;
             return left || right || up || down;
         }
         else {
